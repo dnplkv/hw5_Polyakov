@@ -1,6 +1,6 @@
-from .models import Post
+from django.forms import ModelForm, Textarea, TextInput
 
-from django.forms import ModelForm, TextInput, Textarea
+from .models import Post
 
 
 class PostForm(ModelForm):
@@ -21,4 +21,3 @@ class PostForm(ModelForm):
                 "placeholder": "Содержание",
             }),
         }
-

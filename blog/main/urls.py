@@ -1,5 +1,5 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -7,6 +7,5 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('posts', views.posts, name='posts'),
     path('posts/create', views.posts_create, name='posts_create'),
-    path('api/posts', views.json_posts, name='json_data'),
+    path('api/posts', views.json_posts, name='json_data')
 ]
-

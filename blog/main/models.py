@@ -4,13 +4,20 @@ from django.utils.timezone import now
 # Create your models here.
 
 
-class User(models.Model):
+class Author(models.Model):
     class Meta:
-        db_table = 'tbl_user'
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
-    name = models.CharField('Имя пользователя', max_length=100)
-    email = models.CharField('Email пользователя', max_length=50)
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+    name = models.CharField('Имя автора', max_length=100)
+    email = models.EmailField('Email автора', max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Subscriber(models.Model):
+    email_to = models.EmailField('Email подписчика')
+    author_id = models.ForeignKey('Author', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

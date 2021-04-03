@@ -8,6 +8,7 @@ class Author(models.Model):
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
+
     name = models.CharField('Имя автора', max_length=100)
     email = models.EmailField('Email автора', max_length=50)
 

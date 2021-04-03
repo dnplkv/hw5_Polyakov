@@ -53,7 +53,7 @@ def api_subscribe(request):
 
     subscribe_process(author_id, email_to)
 
-    data = {'author_id': author_id}
+    data = {"author_id": author_id}
     return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
@@ -61,15 +61,20 @@ def posts_subscribe(request):
     err = ""
     if request.method == "POST":
         form = SubscriberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main/posts_subscribe.html')
+        else:
+            err = "Error"
     else:
         form = SubscriberForm()
-        context = {
-            'from': form,
-            'err': err
-        }
+    context = {
+        'from': form,
+        'err': err
+    }
     # author_id = request.GET["author_id"]
     # email_to = request.GET["email_to"]
-
+    #
     # subscribe_process(author_id, email_to)
 
     return render(request, 'main/posts_subscribe.html', context=context)

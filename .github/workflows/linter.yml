@@ -24,4 +24,4 @@ jobs:
     - name: Lint with flake8
       run: flake8 ./blog
     - name: Django check
-        run: python blog/manage.py check
+      run: python blog/manage.py check

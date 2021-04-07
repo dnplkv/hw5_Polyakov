@@ -1,3 +1,4 @@
+from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -148,6 +149,18 @@ def api_subscribe(request):
 
     data = {"author_id": author_id}
     return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+
+
+def api_posts_show(request, post_id):
+    pst = post_find(post_id)
+    dict_obj = model_to_dict(pst)
+    return JsonResponse(dict_obj, safe=False)
+
+
+def api_subscribers_all(request):
+    all_val = Subscriber.objects.all().values('email_to', 'author_id')
+    data = list(all_val)
+    return JsonResponse(data, safe=False)
 
 
 def subscribe_process(author_id, email_to):

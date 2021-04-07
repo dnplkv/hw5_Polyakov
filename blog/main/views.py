@@ -1,10 +1,12 @@
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from faker import Faker
 
 from .forms import PostForm, SubscriberForm
-from .models import Author
+from .models import Author, Post, Subscriber
 from .notify_service import notify
-from .post_service import post_all
+from .post_service import post_all, post_find
 from .subscribe_service import subscribe
 
 
@@ -18,25 +20,116 @@ def about(request):
 
 def posts(request):
     posts = post_all()
-    return render(request, 'main/posts.html', {"title": "Посты", "posts": posts})
+    return render(request, 'main/posts_all.html', {"title": "Posts", "posts": posts})
 
 
 def posts_create(request):
-    err = ""
+    # template
+    # {% url 'posts_show' post_id=post.id %}
+
+    # view
+    # reverse('posts_show') => posts/update/<int:post_id>
+    # reverse('posts_create') => /posts/create
+    # print(reverse('posts_show', args=[1]))
+
+    err_custom = ""
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('posts')
+            return redirect('posts_all')
         else:
-            err = "Error on save Post"
+            err_custom = "Error on save Post"
     else:
         form = PostForm()
     context = {
-        'from': form,
-        'err': err
+        'form': form,
+        'err_my': err_custom
     }
     return render(request, 'main/posts_create.html', context=context)
+
+
+def posts_update(request, post_id):
+    err = ""
+    pst = get_object_or_404(Post, pk=post_id)
+
+    if request.method == "POST":
+        form = PostForm(instance=pst, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('posts_all')
+        else:
+            err = "Error on update Post"
+    else:
+        form = PostForm(instance=pst)
+    context = {
+        'form': form,
+        'err_my': err
+    }
+    return render(request, 'main/posts_update.html', context=context)
+
+
+def posts_show(request, post_id):
+    pst = post_find(post_id)
+    return render(request, 'main/posts_show.html', {"title": pst.title, "pst": pst})
+
+
+def subscribers_new(request):
+    err = ""
+    if request.method == "POST":
+        form = SubscriberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('subscribers_all')
+        else:
+            err = "Error"
+    else:
+        form = SubscriberForm()
+    context = {
+        'form': form,
+        'err': err
+    }
+    # author_id = request.GET["author_id"]
+    # email_to = request.GET["email_to"]
+    #
+    # subscribe_process(author_id, email_to)
+
+    return render(request, 'main/subscriber_new.html', context=context)
+
+
+def subscribers_all(request):
+    all_val = Subscriber.objects.all()
+    # all.delete()
+    return render(request, 'main/subscribers.html', {'title': 'All subs', 'subscribers': all_val})
+
+
+def authors_new(request):
+    faker = Faker()
+    Author(name=faker.name(), email=faker.email()).save()
+    # all = Author.objects.all().values('name', 'email')
+    # all.delete()
+    return HttpResponseRedirect(reverse('authors_all'))
+    # return redirect('authors_all')
+
+
+def authors_all(request):
+    all_val = Author.objects.all()
+    # all.delete()
+    return render(request, 'main/authors.html', {'title': 'Authors', 'authors': all_val})
+
+
+def api_authors_new(request):
+    faker = Faker()
+    Author(name=faker.name(), email=faker.email()).save()
+    all_val = Author.objects.all().values('name', 'email')
+    return JsonResponse(list(all_val), safe=False)
+
+
+def api_authors_all(request):
+    faker = Faker()
+    Author(name=faker.name(), email=faker.email()).save()
+    all_val = Author.objects.all().values('id', 'name', 'email')
+    return JsonResponse(list(all_val), safe=False)
 
 
 def json_posts(request):
@@ -55,29 +148,6 @@ def api_subscribe(request):
 
     data = {"author_id": author_id}
     return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
-
-
-def posts_subscribe(request):
-    err = ""
-    if request.method == "POST":
-        form = SubscriberForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('main/posts_subscribe.html')
-        else:
-            err = "Error"
-    else:
-        form = SubscriberForm()
-    context = {
-        'from': form,
-        'err': err
-    }
-    # author_id = request.GET["author_id"]
-    # email_to = request.GET["email_to"]
-    #
-    # subscribe_process(author_id, email_to)
-
-    return render(request, 'main/posts_subscribe.html', context=context)
 
 
 def subscribe_process(author_id, email_to):

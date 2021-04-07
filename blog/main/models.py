@@ -6,6 +6,7 @@ from django.utils.timezone import now
 
 class Author(models.Model):
     class Meta:
+        db_table = 'tbl_author'
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
 
@@ -17,11 +18,11 @@ class Author(models.Model):
 
 
 class Subscriber(models.Model):
-    email_to = models.EmailField('Email подписчика')
+    email_to = models.EmailField('Email подписчика', max_length=50)
     author_id = models.ForeignKey('Author', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.email_to
 
 
 class Post(models.Model):

@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <h1>{{ title }}</h1>
+    <div class="payload">
+        <span class="grey_summary"> {{ pst.description }}</span>
+        <div class="update-link">
+                <a href="{% url 'posts_update' post_id=pst.id %}">Edit</a>
+        </div>
+        <hr>
+        <div>
+            {{ pst.content }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Posts</h1>
+    <hr>
+
+    {% if posts %}
+        {% for post in posts %}
+        <div class="mb-3">
+            <h4>
+                <a href="{% url 'posts_show' post_id=post.id %}">{{ post.title }}</a>
+            </h4>
+            <br>
+            <p>{{ post.content }}</p>
+        </div>
+        <hr>
+        {% endfor %}
+    {% else %}
+    <h4>Posts not found!</h4>
+    {% endif %}
+</div>
+
+{% endblock %}

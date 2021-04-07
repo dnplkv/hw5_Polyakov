@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="container bd-content">
+    <h1>{{ title }}</h1>
+    <div class="payload">
+<!--    <ul>-->
+<!--        {% for subscriber in subscribers %}-->
+<!--        <li class="row">-->
+<!--            <span class="grey">Subscribe email:&nbsp;</span> {{ subscriber.email_to }};-->
+<!--            <span class="grey">&nbsp;Author: </span> {{ subscriber.author_id }}-->
+<!--        </li>-->
+<!--        <hr>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+
+        <table class="table table-hover ">
+            <thead>
+            <tr>
+                <th scope="col">Subscriber ID</th>
+                <th scope="col">Subscribe email</th>
+                <th scope="col">Author</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for subscriber in subscribers %}
+            <tr>
+                <th scope="row">{{ subscriber.id }}</th>
+                <td>{{ subscriber.email_to }}</td>
+                <td>{{ subscriber.author_id }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

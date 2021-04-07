@@ -7,20 +7,55 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>{% block title %}{% endblock %}</title>
+
+    {% load static %}
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'imgs/favicon' %}/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'imgs/favicon' %}/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'imgs/favicon' %}/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'imgs/favicon' %}/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'imgs/favicon' %}/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'imgs/favicon' %}/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'imgs/favicon' %}/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'imgs/favicon' %}/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'imgs/favicon' %}/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{% static 'imgs/favicon' %}/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'imgs/favicon' %}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'imgs/favicon' %}/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'imgs/favicon' %}/favicon-16x16.png">
+    <link rel="manifest" href="{% static 'imgs/favicon' %}/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
 
-<nav>
-    <ul>
-        <li><a href="{% url 'home_page' %}">Main page</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="{% url 'posts' %}">Posts</a></li>
-        <li><a href="{% url 'posts_create' %}">Create post</a></li>
-        <li><a href="{% url 'posts_subscribe' %}">Sub</a></li>
-    </ul>
-</nav>
 
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home_page' %}">Main page</a></li>
 
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'posts_all' %}">Posts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'posts_create' %}">Create post</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'authors_new' %}">Generate Author</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'authors_all' %}">All Authors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'subscribers_new' %}">Subscribe on Author</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<br>
+<br>
+<br>
 {% block content %}{% endblock %}
 
 </body>

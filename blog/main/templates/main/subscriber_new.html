@@ -5,28 +5,22 @@ Subscribe
 {% endblock %}
 
 {% block content %}
-
 <div class="container">
-
-    <h1>Sub</h1>
-
+    <h1>Subscribe on Author</h1>
     <div class="error">
         {{ err }}
-    </div>
-
+        </div>
     <div class="payload">
         <form method="POST">
             {% csrf_token %}
+            {{ form.email_to }}
 
-            {{ from.email_to }}
-            {{ from.author_id }}
-
+            <br><br>
+            {{ form.author_id }}
             <br>
-            <button class="btn btn-lg btn-success">Subscribe</button>
+            <br>
+            <button class ="btn btn-lg btn-success">Subscribe</button>
         </form>
-
     </div>
 </div>
-
-
 {% endblock %}

@@ -1,27 +1,29 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-Create post
+Update post
 {% endblock %}
 
 {% block content %}
-
 <div class="container">
-    <h1>Add post</h1>
-    {{ err_my }}
-    {{ form.errors }}
-
-    <span>{{ err }}</span>
+    <h1>Update post</h1>
+    <div class="error">
+        <h4 class="error">{{ err }}</h4>
+        <div class="dj_error">
+            {{ form.errors }}
+        </div>
+    </div>
+    <div class="payload">
         <form method="POST">
             {% csrf_token %}
+
             {{ form.title }}
             {{ form.description }}
             {{ form.content }}
 
             <br>
-            <button class="btn btn-lg btn-success">Save</button>
+            <button class ="btn btn-lg btn-success">Save</button>
         </form>
     </div>
-
-
+</div>
 {% endblock %}

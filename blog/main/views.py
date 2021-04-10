@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from faker import Faker
 
-from .forms import PostForm, SubscriberForm
+from .forms import CommentForm, PostForm, SubscriberForm
 from .models import Author, Post, Subscriber
 from .notify_service import notify
 from .post_service import post_all, post_find
@@ -72,7 +72,27 @@ def posts_update(request, post_id):
 
 def posts_show(request, post_id):
     pst = post_find(post_id)
-    return render(request, 'main/posts_show.html', {"title": pst.title, "pst": pst})
+    comments = pst.comments.filter()
+    new_comment = None
+    if request.method == 'POST':
+        # A comment was posted
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Create Comment object but don't save to database yet
+            new_comment = comment_form.save(commit=False)
+            # Assign the current post to the comment
+            new_comment.post = pst
+            # Save the comment to the database
+            new_comment.save()
+            return redirect('posts_show')
+    else:
+        comment_form = CommentForm()
+    return render(request, 'main/posts_show.html', {"title": pst.title,
+                                                    "pst": pst,
+                                                    "comments": comments,
+                                                    "new_comment": new_comment,
+                                                    "comment_form": comment_form,
+                                                    })
 
 
 def subscribers_new(request):

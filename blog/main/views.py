@@ -84,7 +84,7 @@ def posts_show(request, post_id):
             new_comment.post = pst
             # Save the comment to the database
             new_comment.save()
-            return redirect('posts_show')
+            return redirect('posts_show', post_id=post_id)
     else:
         comment_form = CommentForm()
     return render(request, 'main/posts_show.html', {"title": pst.title,

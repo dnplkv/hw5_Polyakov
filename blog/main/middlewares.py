@@ -28,7 +28,7 @@ class LogMiddleware:
         response = self.get_response(request)
         st = time()
         utm = request.GET.get('utm')
-        path = Log(path=request.path())
+        path = Log(path=request.path, ip_address='127.0.0.1')
         path.save()
         if utm:
             time_exec = time() - st

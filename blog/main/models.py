@@ -57,7 +57,7 @@ class Comment(models.Model):
 
 class Log(models.Model):
     utm = models.CharField('utm mark', max_length=50)
-    time_exec = models.CharField('time execution', max_length=20)
+    time_exec = models.CharField('Time execution', max_length=20)
     created = models.DateTimeField(auto_now_add=True)
     path = models.CharField('path', max_length=200)
-    ip_address = models.GenericIPAddressField()
+    user_ip = models.CharField('User IP', max_length=20)

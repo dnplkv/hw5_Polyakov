@@ -27,21 +27,24 @@ class LogMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         st = time()
-        utm = request.GET.get('utm')
-        path = Log(path=request.path, ip_address='127.0.0.1')
-        path.save()
-        if utm:
-            time_exec = time() - st
-            log = Log(utm=utm, time_exec=time_exec)
-            log.save()
-        else:
-            ""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[-1].strip()
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        ip_address = Log(ip_address=ip)
-        ip_address.save()
-
+        logger = Log()
+        logger.save()
+        if request.method == 'GET':
+            path = request.path
+            user_ip = get_ip_adress(request)
+            utm = request.GET.get('utm')
+            time_ex = time() - st
+            logger = Log(utm=str(utm), time_exec=time_ex, user_ip=user_ip, path=path)
+            logger.save()
         return response
+
+
+def get_ip_adress(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    elif request.META.get('HTTP_X_REAL_IP'):
+        ip = request.META.get('HTTP_X_REAL_IP')
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

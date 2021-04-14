@@ -21,7 +21,7 @@ def delete_all_logs_3days():
 @shared_task
 def email_send_to_subs():
     adress = requests.get("https://tproger.ru/wp-content/plugins/citation-widget/get-quote.php")
-    string = str(adress.content)
+    string = adress.content.decode('utf-8')
     emails = Subscriber.objects.values_list('email_to', flat=True)
 
     for email in set(emails):

@@ -18,6 +18,8 @@ urlpatterns = [
     path('authors/new/', views.authors_new, name='authors_new'),
     path('authors/all/', views.authors_all, name='authors_all'),
 
+    path('email_subs/', views.email_to_all_subs, name='email_to_all_subs'),
+
     path('api/posts/', views.json_posts, name='json_data'),
     path('api/subscribe/', views.api_subscribe, name='api_subscribe'),
     path('api/authors/new/', views.api_authors_new, name='api_authors_new'),

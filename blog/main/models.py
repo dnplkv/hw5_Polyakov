@@ -36,3 +36,28 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post,
+                             on_delete=models.CASCADE,
+                             related_name='comments')
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(default=now)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.name, self.post)
+
+
+class Log(models.Model):
+    utm = models.CharField('utm mark', max_length=50)
+    time_exec = models.CharField('Time execution', max_length=20)
+    created = models.DateTimeField(auto_now_add=True)
+    path = models.CharField('path', max_length=200)
+    user_ip = models.CharField('User IP', max_length=20)

@@ -1,3 +1,5 @@
+from time import time
+
 from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,7 +10,8 @@ from .forms import CommentForm, PostForm, SubscriberForm
 from .models import Author, Post, Subscriber
 from .notify_service import notify
 from .post_service import post_all, post_find
-from .subscribe_service import subscribe
+from .subscribe_service import get_author_name, subscribe
+from .tasks import email_send_to_subs, notify_async
 
 
 def index(request):
@@ -97,15 +100,26 @@ def posts_show(request, post_id):
 
 def subscribers_new(request):
     err = ""
+    subscribe_success = False
+    email_to = request.POST.get('email_to')
+
     if request.method == "POST":
         form = SubscriberForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('subscribers_all')
+            # return redirect('subscribers_all')
+            subscribe_success = True
         else:
             err = "Error"
     else:
         form = SubscriberForm()
+
+    if subscribe_success:
+        author_name = get_author_name(request)
+        notify_async.delay(email_to, author_name)
+
+        return redirect('subscribers_all')
+
     context = {
         'form': form,
         'err': err
@@ -186,3 +200,12 @@ def api_subscribers_all(request):
 def subscribe_process(author_id, email_to):
     subscribe(author_id, email_to)
     notify(email_to)
+
+
+def email_to_all_subs(request):
+    st = time()
+    print("*** START ***")
+    email_send_to_subs.delay()
+    time_exec = time() - st
+    print(f"*** FINISH *** {time_exec}")
+    return redirect('home_page')

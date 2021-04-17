@@ -7,7 +7,7 @@ from django.urls import reverse
 from faker import Faker
 
 from .forms import CommentForm, PostForm, SubscriberForm
-from .models import Author, Post, Subscriber
+from .models import Author, Books, Category, Post, Subscriber
 from .notify_service import notify
 from .post_service import post_all, post_find
 from .subscribe_service import get_author_name, subscribe
@@ -148,9 +148,21 @@ def authors_new(request):
 
 
 def authors_all(request):
-    all_val = Author.objects.all()
+    all_val = Author.objects.all().prefetch_related('books')
     # all.delete()
     return render(request, 'main/authors.html', {'title': 'Authors', 'authors': all_val})
+
+
+def books_all(request):
+    books = Books.objects.all().only("title", "category").select_related("category")
+    context = {'books': books}
+    return render(request, 'main/books.html', context)
+
+
+def categories_all(request):
+    categories = Category.objects.only("name").distinct().prefetch_related('books')
+    context = {'categories': categories}
+    return render(request, 'main/categories.html', context)
 
 
 def api_authors_new(request):

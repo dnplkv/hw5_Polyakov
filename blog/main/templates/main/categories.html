@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+All categories
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ title }}</h1>
+    <div class="payload">
+        <table class="table table-hover table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Category ID</th>
+                <th scope="col">Name of category</th>
+                <th scope="col">Books Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.books.count }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

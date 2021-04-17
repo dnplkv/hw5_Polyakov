@@ -48,7 +48,7 @@ class Books(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField('Name of category', max_length=80)
+    name = models.CharField('Name of category', max_length=80, unique=True)
 
     def __str__(self):
         return self.name

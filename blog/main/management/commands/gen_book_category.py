@@ -13,13 +13,18 @@ class Command(BaseCommand):
         for _ in range(75):
             Author(name=fake.name(), email=fake.email()).save()
 
-        for _ in range(15):  # category name generator
+        for _ in range(23):  # category name generator
             categories = ['Fantasy', 'Adventure', 'Romance', 'Contemporary',
                           'Dystopian', 'Mystery', 'Horror', 'Thriller', 'Paranormal',
                           'Historical fiction', 'Science Fiction', 'Memoir', 'Cooking',
                           'Art', 'Development', 'Motivational', 'Health', 'History',
                           'Travel', 'Guide', 'Social', 'Humor', 'Children’s']
-            Category(name=random.choice(categories)).save()
+            for _ in categories:
+                value = random.choice(categories)
+                if Category.objects.filter(name=value).exists() is False:
+                    Category(name=value).save()
+                else:
+                    pass
 
         for _ in range(200):  # book title generator
             author = Author.objects.all().order_by('?').last()

@@ -19,3 +19,6 @@ rabbit_status:
 
 celery:
 	celery -A blog worker -l info
+
+shell:
+	python blog/manage.py shell_plus --print-sql

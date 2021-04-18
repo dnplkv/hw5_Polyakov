@@ -10,8 +10,8 @@ class Author(models.Model):
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
 
-    name = models.CharField('Имя автора', max_length=100)
-    email = models.EmailField('Email автора', max_length=50)
+    name = models.CharField('Имя автора', max_length=100, null=True)
+    email = models.EmailField('Email автора', max_length=50, null=True)
 
     def __str__(self):
         return self.name
@@ -36,6 +36,22 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Books(models.Model):
+    title = models.CharField('Title', max_length=50)
+    author = models.ForeignKey('Author', models.CASCADE, related_name='books')
+    category = models.ForeignKey('Category', models.CASCADE, related_name='books', null=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Category(models.Model):
+    name = models.CharField('Name of category', max_length=80, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Comment(models.Model):

@@ -27,8 +27,6 @@ class LogMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         st = time()
-        logger = Log()
-        logger.save()
         if request.method == 'GET':
             path = request.path
             user_ip = get_ip_adress(request)

@@ -22,3 +22,6 @@ celery:
 
 shell:
 	python blog/manage.py shell_plus --print-sql
+
+flake:
+	flake8 ./blog

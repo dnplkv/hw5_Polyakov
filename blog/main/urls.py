@@ -1,14 +1,17 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 
 
 urlpatterns = [
-    path('', views.index, name='home_page'),
+    # path('', views.index, name='home_page'),
+    path('', TemplateView.as_view(template_name='main/index.html'), name='home_page'),
     path('about/', views.about, name='about'),
     # url(r'^favicon\.ico$', RedirectView.as_view(url='/static/imgs/favicon/favicon.ico')),
 
     path('posts/', views.posts, name='posts_all'),
+    path('posts/list/', views.PostsListView.as_view(), name='posts_list'),
     path('posts/create/', views.posts_create, name='posts_create'),
     path('posts/update/<int:post_id>/', views.posts_update, name='posts_update'),
     path('posts/<int:post_id>/', views.posts_show, name='posts_show'),
@@ -28,4 +31,6 @@ urlpatterns = [
     path('api/subscribers/all/', views.api_subscribers_all, name='api_subscribers_all'),
     path('api/authors/all/', views.api_authors_all, name='api_authors_all'),
     path('api/posts/<int:post_id>/', views.api_posts_show, name='api_posts_show'),
+
+    path('contact-us/create/', views.ContactsView.as_view(), name='contact-us-create'),
 ]

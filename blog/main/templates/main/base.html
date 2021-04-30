@@ -24,6 +24,11 @@
     <link rel="icon" type="image/png" sizes="96x96" href="{% static 'imgs/favicon' %}/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'imgs/favicon' %}/favicon-16x16.png">
     <link rel="manifest" href="{% static 'imgs/favicon' %}/manifest.json">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/assets/main.css">
+
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -42,7 +47,6 @@
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home_page' %}">Main page</a></li>
 
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'posts_all' %}">Posts</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'posts_create' %}">Create post</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'authors_new' %}">Generate Author</a></li>
@@ -59,7 +63,40 @@
 <br>
 <br>
 <br>
-{% block content %}{% endblock %}
+
+
+
+<div>
+    {% block content %}{% endblock %}
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Contact us</h3>
+                        <ul>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contact-us-create' %}">Send message</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>About</h3>
+                        <ul>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 item text">
+                        <h3>Blog</h3>
+                        <p>On this blog you can share your thoughts, discuss new books and articles, subscribe on authors and more!</p>
+                    </div>
+                </div>
+                <p class="copyright">Copyrights © 2021</p>
+            </div>
+        </footer>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</div>
+
 
 </body>
 </html>

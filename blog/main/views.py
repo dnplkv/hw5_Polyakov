@@ -4,10 +4,12 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView
 from faker import Faker
 
 from .forms import CommentForm, PostForm, SubscriberForm
-from .models import Author, Books, Category, Post, Subscriber
+from .models import Author, Books, Category, Contacts, Post, Subscriber
 from .notify_service import notify
 from .post_service import post_all, post_find
 from .subscribe_service import get_author_name, subscribe
@@ -25,6 +27,17 @@ def about(request):
 def posts(request):
     posts = post_all()
     return render(request, 'main/posts_all.html', {"title": "Posts", "posts": posts})
+
+
+class PostsListView(ListView):
+    queryset = Post.objects.all()
+    template_name = 'main/posts_list.html'
+
+
+class ContactsView(CreateView):
+    success_url = reverse_lazy("home_page")
+    model = Contacts
+    fields = ("email_to", "topic", "text")
 
 
 def posts_create(request):

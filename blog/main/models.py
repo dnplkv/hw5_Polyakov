@@ -77,3 +77,9 @@ class Log(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     path = models.CharField('path', max_length=200)
     user_ip = models.CharField('User IP', max_length=20)
+
+
+class Contacts(models.Model):
+    email_to = models.EmailField('Email to holders', max_length=70)
+    topic = models.CharField(max_length=150)
+    text = models.TextField()

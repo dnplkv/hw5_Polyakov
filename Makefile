@@ -23,5 +23,8 @@ celery:
 shell:
 	python blog/manage.py shell_plus --print-sql
 
+fill_posts:
+	python blog/manage.py fill_posts
+
 flake:
 	flake8 ./blog

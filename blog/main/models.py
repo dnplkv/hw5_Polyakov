@@ -28,7 +28,7 @@ class Subscriber(models.Model):
 class Post(models.Model):
     class Meta:
         db_table = 'tbl_post'
-    title = models.CharField('Заголовок', max_length=40)
+    title = models.CharField('Заголовок', max_length=80)
     description = models.CharField('Краткое описание', max_length=90)
     content = models.TextField('Статья')
     created = models.DateTimeField(auto_now_add=True)

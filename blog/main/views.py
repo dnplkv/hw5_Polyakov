@@ -1,12 +1,14 @@
+import io
 from time import time
 
 from django.forms.models import model_to_dict
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, View
 from faker import Faker
+import xlsxwriter
 
 from .forms import CommentForm, PostForm, SubscriberForm
 from .models import Author, Books, Category, Contacts, Post, Subscriber
@@ -32,6 +34,30 @@ def posts(request):
 class PostsListView(ListView):
     queryset = Post.objects.all()
     template_name = 'main/posts_list.html'
+
+
+class DownloadPostsTitleXLSX(View):
+
+    def get(self, request):
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output)
+        worksheet = workbook.add_worksheet()
+        all_posts = Post.objects.all()
+        row_num = 0
+        for post in all_posts:
+            row_num = row_num + 1
+            worksheet.write(row_num, 0, post.title)
+        workbook.close()
+        output.seek(0)
+
+        filename = 'PostsTitle.xlsx'
+        response = HttpResponse(
+            output,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+        return response
 
 
 class ContactsView(CreateView):

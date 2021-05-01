@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('posts/', views.posts, name='posts_all'),
     path('posts/list/', views.PostsListView.as_view(), name='posts_list'),
+    path('posts/list/xlsx', views.DownloadPostsTitleXLSX.as_view(), name='download_posts_xlsx'),
     path('posts/create/', views.posts_create, name='posts_create'),
     path('posts/update/<int:post_id>/', views.posts_update, name='posts_update'),
     path('posts/<int:post_id>/', views.posts_show, name='posts_show'),

@@ -38,3 +38,6 @@ restart_memcached:
 flake:
 	flake8 ./blog
 
+createsuperuser:
+	python blog/manage.py createsuperuser
+

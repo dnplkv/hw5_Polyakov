@@ -58,18 +58,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+
     'debug_toolbar',
     'main',
+    'account',
 ]
 
 
 CACHE = {
+    # 'default': {
+    #     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+    #     'LOCATION': '127.0.0.1:11211',
+    # },
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
     }
 }
 
+AUTH_USER_MODEL = 'account.user'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -112,6 +112,17 @@ def posts_update(request, post_id):
     return render(request, 'main/posts_update.html', context=context)
 
 
+def posts_delete(request, post_id):
+    obj = get_object_or_404(Post, pk=post_id)
+    if request.method == "POST":
+        obj.delete()
+        return redirect('posts_all')
+    context = {
+        "post": obj
+    }
+    return render(request, 'main/delete_posts.html', context=context)
+
+
 def posts_show(request, post_id):
     pst = post_find(post_id)
     comments = pst.comments.filter()
@@ -184,6 +195,17 @@ def authors_new(request):
     # all.delete()
     return HttpResponseRedirect(reverse('authors_all'))
     # return redirect('authors_all')
+
+
+def author_delete(request, author_id):
+    obj = get_object_or_404(Author, pk=author_id)
+    if request.method == "POST":
+        obj.delete()
+        return redirect('authors_all')
+    context = {
+        "author": obj
+    }
+    return render(request, 'main/delete_author.html', context=context)
 
 
 def authors_all(request):

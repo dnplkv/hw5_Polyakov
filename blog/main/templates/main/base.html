@@ -56,6 +56,10 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'books_all' %}">All books</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'categories_all' %}">All categories</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'download_posts_xlsx' %}">Download posts title in XLSX</a></li>
+
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account:my_profile' %}">Account</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

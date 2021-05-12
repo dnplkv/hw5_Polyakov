@@ -26,5 +26,15 @@ shell:
 fill_posts:
 	python blog/manage.py fill_posts
 
+start_memcached:
+	systemctl start memcached
+
+stop_memcached:
+	systemctl stop memcached
+
+restart_memcached:
+	systemctl restart memcached
+
 flake:
 	flake8 ./blog
+

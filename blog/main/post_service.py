@@ -1,8 +1,16 @@
+from django.core.cache import cache
+
 from .models import Post
 
 
 def post_all():
-    return Post.objects.all()
+    key = Post().__class__.cache_key()
+    if key in cache:
+        all_obj = cache.get(key)
+    else:
+        all_obj = Post.objects.all()
+        cache.set(key, all_obj, 30)
+    return all_obj
 
 
 def post_find(post_id: int) -> Post:

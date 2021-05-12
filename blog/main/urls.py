@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators import cache
 from django.views.generic import TemplateView
 
 from . import views
@@ -11,7 +12,8 @@ urlpatterns = [
     # url(r'^favicon\.ico$', RedirectView.as_view(url='/static/imgs/favicon/favicon.ico')),
 
     path('posts/', views.posts, name='posts_all'),
-    path('posts/list/', views.PostsListView.as_view(), name='posts_list'),
+    # path('posts/list/', views.PostsListView.as_view(), name='posts_list'),
+    path('posts/all/', cache.cache_page(120)(views.PostsListView.as_view()), name='posts_list'),
     path('posts/list/xlsx', views.DownloadPostsTitleXLSX.as_view(), name='download_posts_xlsx'),
     path('posts/create/', views.posts_create, name='posts_create'),
     path('posts/update/<int:post_id>/', views.posts_update, name='posts_update'),
@@ -20,9 +22,11 @@ urlpatterns = [
     path('authors/subscribe/', views.subscribers_new, name='subscribers_new'),
     path('subscribers/all/', views.subscribers_all, name='subscribers_all'),
     path('authors/new/', views.authors_new, name='authors_new'),
-    path('authors/all/', views.authors_all, name='authors_all'),
+    # path('authors/all/', views.authors_all, name='authors_all'),
+    path('authors/all/', cache.cache_page(120)(views.authors_all), name='authors_all'),
     path('books/all/', views.books_all, name='books_all'),
-    path('categories/all/', views.categories_all, name='categories_all'),
+    # path('categories/all/', views.categories_all, name='categories_all'),
+    path('categories/all/', cache.cache_page(120)(views.categories_all), name='categories_all'),
 
     path('email_subs/', views.email_to_all_subs, name='email_to_all_subs'),
 

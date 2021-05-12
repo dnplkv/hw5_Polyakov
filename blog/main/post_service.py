@@ -9,7 +9,7 @@ def post_all():
         all_obj = cache.get(key)
     else:
         all_obj = Post.objects.all()
-        cache.set(key, all_obj, 30)
+        cache.set(key, all_obj, 5)
     return all_obj
 
 

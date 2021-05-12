@@ -15,6 +15,9 @@
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Total amount of books</th>
+                {% if request.user.is_authenticated %}
+                <th scope="col">Delete</th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -24,6 +27,9 @@
                 <td>{{ author.name }}</td>
                 <td>{{ author.email }}</td>
                 <td>{{ author.books.count }}</td>
+                <td>{% if request.user.is_authenticated %}
+                <a href="{% url 'delete_author' author_id=author.id %}"><button class="btn btn-xs btn-danger">X</button></a>
+                {% endif %}</td>
             </tr>
             {% endfor %}
             </tbody>

@@ -1,5 +1,5 @@
 run:
-	python blog/manage.py runserver
+	python blog/manage.py runserver 0.0.0.0:8000
 
 make-migrate:
 	python blog/manage.py makemigrations
@@ -41,3 +41,17 @@ flake:
 createsuperuser:
 	python blog/manage.py createsuperuser
 
+gunicorn_run_8081:
+	gunicorn -w 4 -b 0.0.0.0:8081 --chdir /home/danny/Hillel_Advanced/hw5_Polyakov/blog blog.wsgi --timeout 60 --log-level debug --max-requests 10000
+
+collect_static:
+	python blog/manage.py collectstatic
+
+run_nginx:
+	systemctl start nginx
+
+stop_nginx:
+	systemctl stop nginx
+
+reload_nginx:
+	systemctl reload nginx

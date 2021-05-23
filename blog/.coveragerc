@@ -1,0 +1,17 @@
+[run]
+branch = True
+omit = blog/manage.py,
+        */migrations/*,
+        */tests/*,
+        blog/blog/settings*.py,
+        blog/blog/wsgi*.py,
+
+[report]
+precision = 2
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    def __str__
+
+[html]
+directory = ../static_content/coverage

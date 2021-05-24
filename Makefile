@@ -55,3 +55,10 @@ stop_nginx:
 
 reload_nginx:
 	systemctl reload nginx
+
+test_run:
+	cd blog && pytest
+
+tst:
+	cd blog && pytest --cov=main --cov-report=html --cov-fail-under=40
+	xdg-open static_content/coverage/index.html

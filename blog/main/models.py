@@ -97,3 +97,20 @@ class Contacts(models.Model):
     email_to = models.EmailField('Email to holders', max_length=70)
     topic = models.CharField(max_length=150)
     text = models.TextField()
+
+
+class Rate(models.Model):
+    CURRENCY_CHOICES = (
+        (1, "USD"),
+        (2, "EUR"),
+    )
+
+    SOURCE_CHOICES = (
+        (1, "PRIVATE_BANK"),
+    )
+
+    currency = models.PositiveSmallIntegerField(choices=CURRENCY_CHOICES, db_index=True)
+    source = models.PositiveSmallIntegerField(choices=SOURCE_CHOICES)
+    buy = models.DecimalField(max_digits=6, decimal_places=2)
+    sale = models.DecimalField(max_digits=6, decimal_places=2)
+    created = models.DateTimeField(auto_now_add=True)

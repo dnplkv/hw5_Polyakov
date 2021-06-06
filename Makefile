@@ -1,11 +1,15 @@
+MANAGE = python blog/manage.py
+PROJECT_DIR=$(shell pwd)
+
+
 run:
-	python blog/manage.py runserver 0.0.0.0:8000
+	$(MANAGE) runserver 0.0.0.0:8000
 
 make-migrate:
-	python blog/manage.py makemigrations
+	$(MANAGE) makemigrations
 
 migrate:
-	python blog/manage.py migrate
+	$(MANAGE) migrate
 
 freeze:
 	pip freeze > requirements.txt
@@ -21,10 +25,10 @@ celery:
 	celery -A blog worker -l info
 
 shell:
-	python blog/manage.py shell_plus --print-sql
+	$(MANAGE) shell_plus --print-sql
 
 fill_posts:
-	python blog/manage.py fill_posts
+	$(MANAGE) fill_posts
 
 start_memcached:
 	systemctl start memcached
@@ -39,13 +43,13 @@ flake:
 	flake8 ./blog
 
 createsuperuser:
-	python blog/manage.py createsuperuser
+	$(MANAGE) createsuperuser
 
 gunicorn_run_8081:
 	gunicorn -w 4 -b 0.0.0.0:8081 --chdir /home/danny/Hillel_Advanced/hw5_Polyakov/blog blog.wsgi --timeout 60 --log-level debug --max-requests 10000
 
 collect_static:
-	python blog/manage.py collectstatic
+	$(MANAGE) collectstatic
 
 run_nginx:
 	systemctl start nginx
@@ -62,3 +66,13 @@ test_run:
 tst:
 	cd blog && pytest --cov=main --cov-report=html --cov-fail-under=40
 	xdg-open static_content/coverage/index.html
+
+docker_run:
+	docker run --rm -t -d -p 8222:8111 --name my_blog blog:v1
+
+docker_build:
+	docker build -t blog:v1 .
+
+docker_stop:
+	docker container stop my_blog
+

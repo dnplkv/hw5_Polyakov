@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  backend:
+    build: .
+    container_name: blog-backend
+    tty: true
+    stdin_open: true
+    restart: always
+    ports:
+    - "8001:8111"
+    volumes:
+      - ./:/srv/project
+    depends_on:
+      - memcached
+      - rabbitmq
+    env_file:
+      - .env
+
+  memcached:
+    image: memcached:1.6.9
+    container_name: blog-memcached
+    tty: true
+    stdin_open: true
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.8-rc-management
+    container_name: rabbitmq
+    tty: true
+    stdin_open: true
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "15672:15672"
+
+  postgres:
+    image: postgres:12
+    env_file:
+      - .env
+    container_name: blog-db
+    ports:
+      - "127.0.0.1:5432:5432"

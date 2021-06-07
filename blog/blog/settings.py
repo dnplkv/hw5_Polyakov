@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '^*t8zie)4rzde--cvucha6dv@mh&rj93z=@v!zxg%(n^l!6k!6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-
     'debug_toolbar',
     'main',
     'account',
@@ -173,10 +172,16 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_content', 'static')
 
 # GMAIL
-EMAIL_HOST_USER = 'uchetkanyash@gmail.com'
-EMAIL_HOST_PASSWORD = 'c5j8pk13'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_HOST_USER = 'uchetkanyash@gmail.com'
+# EMAIL_HOST_PASSWORD = 'c5j8pk13'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+DEFAULT_FROM_EMAIL = 'from-admin@blog.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DOMAIN = 'http://0.0.0.0:8000'
+
+LOGIN_REDIRECT_URL = '/'

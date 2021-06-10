@@ -1,9 +1,10 @@
 MANAGE = python blog/manage.py
 PROJECT_DIR=$(shell pwd)
+WSGI_PORT=8000
 
 
 run:
-	$(MANAGE) runserver 0.0.0.0:8000
+	$(MANAGE) runserver 0.0.0.0:$(WSGI_PORT)
 
 make-migrate:
 	$(MANAGE) makemigrations
@@ -22,7 +23,10 @@ rabbit_status:
 	systemctl status rabbitmq-server
 
 celery:
-	celery -A blog worker -l info
+	cd blog && celery -A blog worker -l info
+
+celery-beat:
+	cd blog && rm -rf celerybeat.pid && celery -A blog beat -l INFO
 
 shell:
 	$(MANAGE) shell_plus --print-sql
@@ -45,8 +49,8 @@ flake:
 createsuperuser:
 	$(MANAGE) createsuperuser
 
-gunicorn_run_8081:
-	gunicorn -w 4 -b 0.0.0.0:8081 --chdir /home/danny/Hillel_Advanced/hw5_Polyakov/blog blog.wsgi --timeout 60 --log-level debug --max-requests 10000
+gunicorn_run:
+	gunicorn -w 4 -b 0.0.0.0:$(WSGI_PORT) --chdir $(PROJECT_DIR)/blog blog.wsgi --timeout 60 --log-level debug --max-requests 10000
 
 collect_static:
 	$(MANAGE) collectstatic
@@ -76,3 +80,21 @@ docker_build:
 docker_stop:
 	docker container stop my_blog
 
+dkr-run_dev: dkr-down
+	$(eval RUN_COMMAND=run)
+	docker-compose up -d --build
+	make copy-static
+
+dkr-run_production: dkr-down
+	$(eval RUN_COMMAND=gunicorn_run)
+	docker-compose up -d --build
+	make docker collect-static
+	make copy-static
+
+dkr-down:
+	docker-compose down
+
+copy-static:
+	docker exec -it blog-backend python ./blog/manage.py collectstatic --noinput
+	docker cp blog-backend:tmp/static_content/static /tmp/static
+#	docker cp /tmp/static nginx:/etc/nginx/static

@@ -1,3 +1,5 @@
+include .env
+export $(shell sed 's/=.*//' .env)
 MANAGE = python blog/manage.py
 PROJECT_DIR=$(shell pwd)
 WSGI_PORT=8000
@@ -96,5 +98,5 @@ dkr-down:
 
 copy-static:
 	docker exec -it blog-backend python ./blog/manage.py collectstatic --noinput
-	docker cp blog-backend:tmp/static_content/static /tmp/static
-#	docker cp /tmp/static nginx:/etc/nginx/static
+	docker cp blog-backend:/srv/project/tmp/static_content/static /tmp/static
+	docker cp /tmp/static nginx:/etc/nginx/static

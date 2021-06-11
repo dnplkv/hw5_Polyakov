@@ -176,6 +176,7 @@ STATICFILES_DIRS = [
 ]
 
 # STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_content', 'static')
+# STATIC_ROOT = os.path.join('tmp', 'static_content', 'static')
 STATIC_ROOT = os.path.join('tmp', 'static_content', 'static')
 
 

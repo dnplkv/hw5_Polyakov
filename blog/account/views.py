@@ -5,10 +5,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, View
+from django.views.generic import CreateView, ListView, UpdateView, View
 
-from .forms import UserRegistrationForm
-from .models import User
+from .forms import AvaForm, UserRegistrationForm
+from .models import Ava, User
 
 
 class MyProfile(LoginRequiredMixin, UpdateView):
@@ -55,3 +55,32 @@ def change_password(request):
 def logout(request):
     auth_logout(request)
     return redirect("home_page")
+
+
+class AvaCreate(LoginRequiredMixin, CreateView):
+    model = Ava
+    form_class = AvaForm
+    template_name = 'account/user_ava_form.html'
+    success_url = reverse_lazy("home_page")
+
+    # variant 1
+    # def get_from(self, form_class=None):
+    #     if form_class is None:
+    #         form_class = self.get_form_class()
+    #     return form_class(request=self.request, **self.get_form_kwargs())
+
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        form_kwargs['request'] = self.request
+        return form_kwargs
+
+
+class AvaList(LoginRequiredMixin, ListView):
+    queryset = Ava.objects.all()
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(user=self.request.user)
+
+    # def get_queryset(self):
+    #     return self.request.user.ava_set.all()

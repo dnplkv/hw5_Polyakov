@@ -1,0 +1,15 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+Avatar
+{% endblock %}
+
+{% block  content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button class="btn btn-lg btn-success">Save Avatar</button>
+
+</form>
+{% endblock %}

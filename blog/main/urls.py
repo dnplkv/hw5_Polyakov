@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from django.views.decorators import cache
 from django.views.generic import TemplateView
@@ -41,4 +43,4 @@ urlpatterns = [
     path('api/posts/<int:post_id>/', views.api_posts_show, name='api_posts_show'),
 
     path('contact-us/create/', views.ContactsView.as_view(), name='contact-us-create'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

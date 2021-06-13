@@ -1,11 +1,14 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import include, path
 from django.views.decorators import cache
 from django.views.generic import TemplateView
+# from rest_framework.routers import DefaultRouter
 
 from . import views
 
+# router = DefaultRouter()
+# router.register(prefix='api/v1/posts_view', viewset=views.PostAPIViewSet, basename='post')
 
 urlpatterns = [
     # path('', views.index, name='home_page'),
@@ -35,12 +38,19 @@ urlpatterns = [
     path('posts/delete/<int:post_id>/', views.posts_delete, name='delete_posts'),
     path('authors/delete/<int:author_id>/', views.author_delete, name='delete_author'),
 
-    path('api/posts/', views.json_posts, name='json_data'),
-    path('api/subscribe/', views.api_subscribe, name='api_subscribe'),
-    path('api/authors/new/', views.api_authors_new, name='api_authors_new'),
-    path('api/subscribers/all/', views.api_subscribers_all, name='api_subscribers_all'),
-    path('api/authors/all/', views.api_authors_all, name='api_authors_all'),
-    path('api/posts/<int:post_id>/', views.api_posts_show, name='api_posts_show'),
+    path('api/v1/posts/', views.json_posts, name='json_data'),
+    path('api/v1/posts/<int:post_id>/', views.api_posts_show, name='api_posts_show'),
+    path('api/v1/subscribe/', views.api_subscribe, name='api_subscribe'),
+    path('api/v1/authors/new/', views.api_authors_new, name='api_authors_new'),
+    path('api/v1/subscribers/all/', views.api_subscribers_all, name='api_subscribers_all'),
+    path('api/v1/authors/all/', views.api_authors_all, name='api_authors_all'),
+
+    # API
+    # path('api/v1/posts_view/', views.PostListAPIView.as_view(), name='api_posts'),
+    # path('api/v1/posts_view/<int:post_id>/', views.PostAPIView.as_view(), name='api_posts_num'),
+    path('api/v1/', include('api.urls')),
 
     path('contact-us/create/', views.ContactsView.as_view(), name='contact-us-create'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# urlpatterns += router.urls

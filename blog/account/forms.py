@@ -1,4 +1,4 @@
-from account.models import User
+from account.models import Ava, User
 from account.tasks import send_email_with_activation_link
 from django import forms
 from django.db import transaction
@@ -28,16 +28,6 @@ class UserRegistrationForm(forms.ModelForm):
             self.add_error('email', 'Email already exists.')
         return email
 
-    # def save(self, commit=True):
-    #     instance: User = super().save(commit=False)
-    #     instance.is_active = False
-    #
-    #     instance.save()
-    #
-    #     send_email_with_activation_link.apply_async(args=[instance.id], countdown=10)
-    #
-    #     return instance
-
     @transaction.atomic
     def save(self, commit=True):
         instance: User = super().save(commit=False)
@@ -45,4 +35,20 @@ class UserRegistrationForm(forms.ModelForm):
         instance.set_password(self.cleaned_data["password1"])
         instance.save()
         send_email_with_activation_link.apply_async(args=[instance.id])
+        return instance
+
+
+class AvaForm(forms.ModelForm):
+    class Meta:
+        model = Ava
+        fields = ('file_path',)
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=False):
+        instance = super().save(commit=False)
+        instance.user = self.request.user
+        instance.save()
         return instance

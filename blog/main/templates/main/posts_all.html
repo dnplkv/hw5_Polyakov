@@ -6,8 +6,10 @@
 
 <div class="container">
     <h1>Posts</h1>
+    <p>
+        You can visit <a href="{% url 'posts_list' %}">Posts list</a> page for better navigation and search.
+    </p>
     <hr>
-
     {% if posts %}
         {% for post in posts %}
         <div class="mb-3">

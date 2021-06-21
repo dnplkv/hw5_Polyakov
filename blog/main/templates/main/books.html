@@ -6,7 +6,11 @@ All books
 
 {% block content %}
 <div class="container">
-    <h1>{{ title }}</h1>
+    <h1>Books</h1>
+    <p>
+        You can visit <a href="{% url 'books_list' %}">Books list</a> page for better navigation and search.
+    </p>
+    <hr>
     <div class="payload">
         <table class="table table-hover table-sm">
             <thead>

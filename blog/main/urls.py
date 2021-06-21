@@ -1,4 +1,4 @@
-from django.conf import settings
+from blog import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 from django.views.decorators import cache
@@ -17,8 +17,8 @@ urlpatterns = [
     # url(r'^favicon\.ico$', RedirectView.as_view(url='/static/imgs/favicon/favicon.ico')),
 
     path('posts/', views.posts, name='posts_all'),
-    # path('posts/list/', views.PostsListView.as_view(), name='posts_list'),
-    path('posts/all/', cache.cache_page(30)(views.PostsListView.as_view()), name='posts_list'),
+    path('posts/list/', views.PostsListView.as_view(), name='posts_list'),
+    # path('posts/all/', cache.cache_page(30)(views.PostsListView.as_view()), name='posts_list'),
     path('posts/list/xlsx', views.DownloadPostsTitleXLSX.as_view(), name='download_posts_xlsx'),
     path('posts/create/', views.posts_create, name='posts_create'),
     path('posts/update/<int:post_id>/', views.posts_update, name='posts_update'),
@@ -30,6 +30,7 @@ urlpatterns = [
     # path('authors/all/', views.authors_all, name='authors_all'),
     path('authors/all/', cache.cache_page(30)(views.authors_all), name='authors_all'),
     path('books/all/', views.books_all, name='books_all'),
+    path('books/list/', views.BooksListView.as_view(), name='books_list'),
     # path('categories/all/', views.categories_all, name='categories_all'),
     path('categories/all/', cache.cache_page(30)(views.categories_all), name='categories_all'),
 

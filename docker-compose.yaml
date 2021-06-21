@@ -1,19 +1,35 @@
 version: "3.7"
 
 services:
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "8777:80"
+      - "443:443"
+    #    volumes:
+    #      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+
+
   backend:
     build: .
     container_name: blog-backend
+    command: make ${RUN_COMMAND}
     tty: true
     stdin_open: true
     restart: always
     ports:
-    - "8001:8111"
+    - "8001:8000"
     volumes:
       - ./:/srv/project
+      - ./tt:/tmp
     depends_on:
       - memcached
       - rabbitmq
+      - postgres
     env_file:
       - .env
 
@@ -36,9 +52,38 @@ services:
       - "15672:15672"
 
   postgres:
-    image: postgres:12
+    image: postgres:12-alpine
+    container_name: blog-db
+    stdin_open: true
+    restart: always
     env_file:
       - .env
-    container_name: blog-db
     ports:
       - "127.0.0.1:5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  celery:
+    build: .
+    container_name: celery
+    command: make celery
+    restart: always
+    env_file: .env
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./:/srv/project
+
+  celery-beat:
+    build: .
+    container_name: celery-beat
+    command: make celery-beat
+    restart: always
+    env_file: .env
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./:/srv/project
+
+volumes:
+  db_data:

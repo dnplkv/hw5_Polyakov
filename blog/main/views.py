@@ -6,8 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, View
-# from django.views.generic import ListView
+from django.views.generic import CreateView, ListView, View
 from django_filters.views import FilterView
 from faker import Faker
 import xlsxwriter
@@ -37,6 +36,14 @@ def posts(request):
 # class PostsListView(ListView):
 #     paginate_by = 10
 #     template_name = 'main/posts_list.html'
+
+class AuthorsListView(ListView):
+    template_name = 'main/authors_list.html'
+
+    def get_queryset(self):
+        queryset = Author.objects.all()
+        return queryset
+
 
 class PostsListView(FilterView):
     paginate_by = 10

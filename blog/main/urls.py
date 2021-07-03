@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('posts/', views.posts, name='posts_all'),
     path('posts/list/', views.PostsListView.as_view(), name='posts_list'),
+    path('authors/list/', views.AuthorsListView.as_view(), name='authors_list'),
     # path('posts/all/', cache.cache_page(30)(views.PostsListView.as_view()), name='posts_list'),
     path('posts/list/xlsx', views.DownloadPostsTitleXLSX.as_view(), name='download_posts_xlsx'),
     path('posts/create/', views.posts_create, name='posts_create'),

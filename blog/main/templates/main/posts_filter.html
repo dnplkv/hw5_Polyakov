@@ -8,6 +8,14 @@
     <div class="payload">
         <ul>
             <div class="mb-1">Count: {{ cnt }}</div>
+            <form method="GET">
+                {{ filter.form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>Search
+                </button>
+            </form>
+            <br>
+            <hr>
             {% for post in post_list %}
             <h4>
                 <a href="{% url 'posts_show' post_id=post.id %}">{{ post.title }}</a>

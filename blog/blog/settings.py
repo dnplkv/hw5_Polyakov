@@ -66,7 +66,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_extensions',
+    'django_filters',
     'debug_toolbar',
+    'drf_yasg',
     'main',
     'account',
 ]
@@ -84,6 +86,11 @@ CACHE = {
 }
 
 AUTH_USER_MODEL = 'account.user'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

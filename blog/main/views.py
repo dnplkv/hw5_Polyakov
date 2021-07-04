@@ -6,10 +6,13 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, View
+from django.views.generic import CreateView, View
+# from django.views.generic import ListView
+from django_filters.views import FilterView
 from faker import Faker
 import xlsxwriter
 
+from .filters import BooksFilter, PostFilter
 from .forms import CommentForm, PostForm, SubscriberForm
 from .models import Author, Books, Category, Contacts, Post, Subscriber
 from .notify_service import notify
@@ -31,9 +34,25 @@ def posts(request):
     return render(request, 'main/posts_all.html', {"title": "Posts", "posts": posts})
 
 
-class PostsListView(ListView):
-    queryset = Post.objects.all()
-    template_name = 'main/posts_list.html'
+# class PostsListView(ListView):
+#     paginate_by = 10
+#     template_name = 'main/posts_list.html'
+
+class PostsListView(FilterView):
+    paginate_by = 10
+    template_name = 'main/posts_filter.html'
+    filterset_class = PostFilter
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["get_params"] = '&'.join(f"{key}={val}" for key, val in self.request.GET.items() if key != "page")
+        context["cnt"] = context['object_list'].count()
+        context["title"] = "All posts"
+        return context
 
 
 class DownloadPostsTitleXLSX(View):
@@ -218,6 +237,23 @@ def books_all(request):
     books = Books.objects.all().only("title", "category").select_related("category")
     context = {'books': books}
     return render(request, 'main/books.html', context)
+
+
+class BooksListView(FilterView):
+    paginate_by = 10
+    template_name = 'main/books_filter.html'
+    filterset_class = BooksFilter
+
+    def get_queryset(self):
+        queryset = Books.objects.all().only("title", "category").select_related("category")
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["get_params"] = '&'.join(f"{key}={val}" for key, val in self.request.GET.items() if key != "page")
+        context["cnt"] = context['object_list'].count()
+        context["title"] = "All books"
+        return context
 
 
 def categories_all(request):

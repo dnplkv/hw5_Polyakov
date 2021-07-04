@@ -1,29 +1,41 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Posts{% endblock %}
+{% block title %}
+All books
+{% endblock %}
 
 {% block content %}
 <div class="container">
     <h1>{{ title }}</h1>
     <div class="payload">
-        <ul>
-            <div class="mb-1">Count: {{ cnt }}</div>
-            {% for post in post_list %}
-            <h4>
-                <a href="{% url 'posts_show' post_id=post.id %}">{{ post.title }}</a>
-            </h4>
-            <li class="row">
-                <span class="grey summary">{{ post.description }}</span>
-                {{ post.content }}
-            </li>
+                    <div class="mb-1">Count: {{ cnt }}</div>
+            <form method="GET">
+                {{ filter.form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>Search
+                </button>
+            </form>
+            <br>
             <hr>
-
+        <table class="table table-hover table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Book ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in books_list %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.category.name}}</td>
+            </tr>
             {% endfor %}
-        </ul>
-    </div>
-
-
-        <nav aria-label="Page navigation example">
+            </tbody>
+        </table>
+            <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
                     {% if is_paginated %}
@@ -56,6 +68,6 @@
                 </li>
             </ul>
         </nav>
+    </div>
 </div>
 {% endblock %}
-

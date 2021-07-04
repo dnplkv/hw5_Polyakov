@@ -18,10 +18,5 @@
                 $page_container.fadeIn(5000);
             })
         })
-
-        $im.click(function(el) {
-            $(this)
-                .fadeOut(4000);
-        })
     })
 })()

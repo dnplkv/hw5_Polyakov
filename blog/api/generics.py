@@ -1,4 +1,4 @@
-from main.models import Books, Post
+from main.models import Author, Books, Post
 from rest_framework import serializers
 
 
@@ -23,4 +23,13 @@ class BooksSerializer(serializers.ModelSerializer):
             'title',
             'author',
             'category',
+        )
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = (
+            'id',
+            'name',
         )

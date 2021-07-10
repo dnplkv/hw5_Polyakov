@@ -24,6 +24,7 @@ urlpatterns = [
     path('posts/create/', views.posts_create, name='posts_create'),
     path('posts/update/<int:post_id>/', views.posts_update, name='posts_update'),
     path('posts/<int:post_id>/', views.posts_show, name='posts_show'),
+    path('posts_page/', TemplateView.as_view(template_name='main/posts_page.html'), name='posts_page'),
 
     path('authors/subscribe/', views.subscribers_new, name='subscribers_new'),
     path('subscribers/all/', views.subscribers_all, name='subscribers_all'),

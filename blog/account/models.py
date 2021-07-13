@@ -15,4 +15,13 @@ def user_ava_upload(instance, filename):
 
 class Ava(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    file_path = models.FileField(upload_to='blog/media_content')
+    file_path = models.FileField(upload_to=user_ava_upload)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    bio = models.TextField()
+    profile_picture = models.FileField(null=True, blank=True, upload_to=user_ava_upload)
+
+    def __str__(self):
+        return str(self.user)

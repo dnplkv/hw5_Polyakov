@@ -9,6 +9,7 @@ urlpatterns = [
     path('my-profile/', views.MyProfile.as_view(), name='my_profile'),
     path('my-profile/ava/create/', views.AvaCreate.as_view(), name='my_profile_ava_create'),
     path('my-profile/ava/list/', views.AvaList.as_view(), name='my_profile_ava_list'),
+    path('<int:pk>/my_profile/', views.ShowProfilePageView.as_view(), name="show_profile_page"),
     path('sign-up/', views.SignUpView.as_view(), name='sign_up'),
     path('activate/<str:confirmation_token>', views.ActivateUserView.as_view(), name='activate'),
     path('password/', views.change_password, name='change_password'),

@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, View
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
 
 from .forms import AvaForm, ProfileForm, UserRegistrationForm
 from .models import Ava, Profile, User
@@ -99,3 +99,9 @@ class AvaList(LoginRequiredMixin, ListView):
 
     # def get_queryset(self):
     #     return self.request.user.ava_set.all()
+
+
+class AvaDelete(DeleteView):
+    model = Ava
+    template_name = 'account/ava_delete.html'
+    success_url = reverse_lazy('account:my_profile_ava_list')

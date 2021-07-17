@@ -1,50 +1,49 @@
 # Blog
 
-Personal notices and reminds about this "blog" project for studying purposes.
+Personal notices and reminds about this "blog" project for studying purposes. This repository presents a website with a blog functionality in core purpose. Work on this repository has been started during Python Advanced course in Hillel IT School. Any suggestions and advices on this repository are highly appreciated! 😉
 
-## Running gunicorn and collect static
+## Following tools and technlogies were used in this project:
+| Back       			| Front         | Additional tools |
+| -------------  		|-------------	| -----	|
+| Python   	 		| HTML5 	| Docker, Docker-compose |
+| Django      	 		| CSS3 		| GIT |
+| Nginx 			| Vue.js 	| Bash |
+| wsgi(gunicorn/uwsgi)  	| jQuery     	| Makefile |
+| Celery, Redis, Memcached	| Bootstrap     | SQLite3, PostgreSQL |
 
-Use this command to run gunicorn of this project.
 
-Notice: Currently specified port is :8081. You can change it on other in Makefile, 
-as well as name of command for visibility.
+## Install requirements
 
 ```bash
-make gunicorn_run_8081:
+$ pip install -r requirements.txt
 ```
+## To start project locally:
 
-To create static folder dir for its future use enter next command:
 ```bash
-make collect_static
+$ make run
 ```
 
-## Nginx configuration (/etc/nginx/nginx.conf)
+## To start project in Docker:
 
+In development mode:
+
+```bash
+$ make dkr-run_dev
 ```
-events {}
-http {
-	include /etc/nginx/mime.types;
-	sendfile on;
-	server {
-		listen 80;
-		listen [::]:80;
-		server_name 127.0.0.1 blog.com;
 
-		location /static/ {
-			root /home/danny/Hillel_Advanced/hw5_Polyakov/static_content;
-		}
+In produciton mode:
 
-		location / {
-			proxy_pass http://127.0.0.1:8081;
-		}
-	}
-}
+```bash
+$ make dkr-run_production
 ```
+
+## Some screenshots of project:
+<kbd><img src="![Screenshot from 2021-07-17 16-32-01](https://user-images.githubusercontent.com/71149420/126038716-3d23eb72-6e17-474d-a45b-d21e367e9303.png)
+"/></kbd>
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
 
 ## TravisCI
 [![Build Status](https://travis-ci.com/dnplkv/hw5_Polyakov.svg?branch=lint_br)](https://travis-ci.com/dnplkv/hw5_Polyakov)

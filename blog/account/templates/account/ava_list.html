@@ -10,7 +10,7 @@ Avatars
 <div>
   {{ ava.file_path }} <br />
   <img src="{{ ava.file_path.url }}" alt="" width="150"/>
-
+  <a href="{% url 'account:ava_delete' ava.id %}"><button class="btn btn-xs btn-danger">X</button></a>
 </div>
 <hr>
 {% endfor %}

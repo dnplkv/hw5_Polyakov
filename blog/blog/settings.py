@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'django_filters',
+    'django_cleanup',
     'debug_toolbar',
     'drf_yasg',
     'main',

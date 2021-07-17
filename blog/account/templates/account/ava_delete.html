@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Delete ava
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="POST">
+      {% csrf_token %}
+      <h1>Are you sure you want to delete this ava?</h1>
+      <br>
+      <button class="btn btn-lg btn-danger">Yes, delete ava</button>
+    </form>
+</div>
+{% endblock %}

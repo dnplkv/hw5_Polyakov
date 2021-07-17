@@ -5,15 +5,14 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView, View
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
 
-from .forms import AvaForm, UserRegistrationForm
-from .models import Ava, User
+from .forms import AvaForm, ProfileForm, UserRegistrationForm
+from .models import Ava, Profile, User
 
 
 class MyProfile(LoginRequiredMixin, UpdateView):
-    queryset = User.objects.filter(is_active=True)
-    fields = ('first_name', 'last_name',)
+    form_class = ProfileForm
     success_url = reverse_lazy('home_page')
 
     def get_object(self, queryset=None):
@@ -25,6 +24,22 @@ class SignUpView(CreateView):
     form_class = UserRegistrationForm
     template_name = 'account/user_sign_up.html'
     success_url = reverse_lazy('home_page')
+
+
+class ShowProfilePageView(DetailView):
+
+    model = Profile
+    template_name = 'account/user_profile.html'
+    queryset = Ava.objects.all()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
+        page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
+        context['page_user'] = page_user
+        return context
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class ActivateUserView(View):
@@ -84,3 +99,9 @@ class AvaList(LoginRequiredMixin, ListView):
 
     # def get_queryset(self):
     #     return self.request.user.ava_set.all()
+
+
+class AvaDelete(DeleteView):
+    model = Ava
+    template_name = 'account/ava_delete.html'
+    success_url = reverse_lazy('account:my_profile_ava_list')

@@ -1,4 +1,4 @@
-from account.models import Ava, User
+from account.models import Ava, Profile, User
 from django.contrib import admin
 
 from .models import Author, Comment, Log, Post, Rate
@@ -34,4 +34,5 @@ admin.site.register(Log)
 admin.site.register(User)
 
 admin.site.register(Ava)
+admin.site.register(Profile)
 admin.site.register(Rate)

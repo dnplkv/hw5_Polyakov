@@ -1,6 +1,9 @@
 # Blog
 
-Personal notices and reminds about this "blog" project for studying purposes. This repository presents a website with a blog functionality in core purpose. Work on this repository has been started during Python Advanced course in Hillel IT School. Any suggestions and advices on this repository are highly appreciated! 😉
+Personal notices and reminds about this "blog" project for studying purposes. 
+This repository presents a website with a blog functionality in core purpose. 
+Work on this repository has been started during Python Advanced course in Hillel IT School. 
+Any suggestions and advices on this repository are highly appreciated! 😉
 
 ## Following tools and technlogies were used in this project:
 | Back       			| Front         | Additional tools |
@@ -38,9 +41,9 @@ $ make dkr-run_production
 ```
 
 ## Some screenshots of project:
-<kbd><img src="![Screenshot from 2021-07-17 16-32-01](https://user-images.githubusercontent.com/71149420/126038716-3d23eb72-6e17-474d-a45b-d21e367e9303.png)
-"/></kbd>
-
+<kbd><img src="https://github.com/dnplkv/hw5_Polyakov/blob/main/Screenshot%20from%202021-07-17%2016-32-01.png"/></kbd>
+<kbd><img src="https://github.com/dnplkv/hw5_Polyakov/blob/main/Screenshot%20from%202021-07-17%2016-32-32.png"/></kbd>
+<kbd><img src="https://github.com/dnplkv/hw5_Polyakov/blob/main/Screenshot%20from%202021-07-17%2016-32-38.png"/></kbd>
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

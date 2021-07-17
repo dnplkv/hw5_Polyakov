@@ -1,0 +1,8 @@
+[Test]
+back ansible_host=104.248.44.224 ansible_user=root ansible_ssh_private_file=~/.ssh/id_rsa
+
+[digitalocean:children]
+Test
+
+# ansible -i hosts.txt digitalocean -m ping
+# ansible digitalocean -m apt -a "Upload nginx config on server"

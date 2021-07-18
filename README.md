@@ -5,7 +5,7 @@ This repository presents a website with a blog functionality in core purpose.
 Work on this repository has been started during Python Advanced course in Hillel IT School. 
 Any suggestions and advices on this repository are highly appreciated! 😉
 
-## Following tools and technlogies were used in this project:
+## Following tools and technologies were used in this project:
 | Back       			| Front         | Additional tools |
 | -------------  		|-------------	| -----	|
 | Python   	 		| HTML5 	| Docker, Docker-compose |

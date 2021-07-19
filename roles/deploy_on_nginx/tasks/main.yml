@@ -1,0 +1,5 @@
+---
+-  name: "Upload nginx config on server"
+   copy: src={{ item }} dest={{ dest_dir }}
+   with_fileglob:
+     - templates/nginx_conf.j2

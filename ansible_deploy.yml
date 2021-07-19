@@ -1,0 +1,7 @@
+---
+- name: "Upload nginx config on server"
+  hosts: digitalocean
+  become: true
+
+  roles:
+    - { role: deploy_on_nginx, when: ansible_system == "Linux" }
